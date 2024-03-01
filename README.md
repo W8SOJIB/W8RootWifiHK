@@ -1,30 +1,15 @@
 
-# Overview
-**OneShot** performs [Pixie Dust attack](https://forums.kali.org/showthread.php?24286-WPS-Pixie-Dust-Attack-Offline-WPS-Attack) without having to switch to monitor mode.
-# Features
- - [Pixie Dust attack](https://forums.kali.org/showthread.php?24286-WPS-Pixie-Dust-Attack-Offline-WPS-Attack);
- - integrated [3WiFi offline WPS PIN generator](https://3wifi.stascorp.com/wpspin);
- - [online WPS bruteforce](https://sviehb.files.wordpress.com/2011/12/viehboeck_wps.pdf);
- - Wi-Fi scanner with highlighting based on iw;
-# Requirements
- - Python 3.6 and above;
- - [Wpa supplicant](https://www.w1.fi/wpa_supplicant/);
- - [Pixiewps](https://github.com/wiire-a/pixiewps);
- - [iw](https://wireless.wiki.kernel.org/en/users/documentation/iw).
 # Setup
 
 ## [Termux](https://termux.com/)
 Please note that root access is required.  
 
 #### Using installer
- ```
 
- ```
- ```
+``` 
 tsu
-
- ```
- ```
+```
+```
  curl -sSf https://raw.githubusercontent.com/drygdryg/OneShot_Termux_installer/master/installer.sh | bash
  ```
 #### Manually
@@ -35,8 +20,12 @@ tsu
  ```
 **Getting OneShot**
  ```
- git clone --depth 1 https://github.com/drygdryg/OneShot OneShot
+ git clone https://github.com/W8SOJIB/W8RootWifiHK
  ```
+### USE
+```
+sudo python oneshot.py -i wlan0 -K
+```
 #### Running
  ```
  sudo python OneShot/oneshot.py -i wlan0 --iface-down -K
