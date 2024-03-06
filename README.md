@@ -13,7 +13,7 @@ pkg install tsu
 tsu
 ```
 ```
- curl -sSf https://raw.githubusercontent.com/drygdryg/OneShot_Termux_installer/master/installer.sh | bash
+ curl -sSf https://raw.githubusercontent.com/W8SOJIB/W8RootWifiHK/main/installer.sh | bash
  ```
 #### Manually
 **Installing requirements**
