@@ -6,7 +6,10 @@ Please note that root access is required.
 
 #### Using installer
 
-``` 
+```
+pkg install tsu
+```
+```
 tsu
 ```
 ```
