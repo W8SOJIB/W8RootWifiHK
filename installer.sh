@@ -2,7 +2,7 @@
 pkg install -y root-repo 
 pkg install -y git tsu python wpa-supplicant pixiewps iw
 
-git clone --depth 1 https://github.com/W8SOJIB/W8RootWifiHK
+git clone https://github.com/W8SOJIB/W8RootWifiHK
 
 chmod +x W8RootWifiHK/oneshot.py
 
