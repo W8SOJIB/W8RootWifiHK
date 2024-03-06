@@ -3,7 +3,7 @@
 
 ## [Termux](https://termux.com/)
 Please note that root access is required.  
-Download BusyBox....
+#### Download BusyBox....https://github.com/W8SOJIB/W8RootWifiHK/raw/main/BusyBox%20Free_64.apk
 #### Using installer
 
 ```
