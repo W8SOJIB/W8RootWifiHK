@@ -2,8 +2,8 @@
 pkg install -y root-repo 
 pkg install -y git tsu python wpa-supplicant pixiewps iw
 
-git clone --depth 1 https://github.com/W8SOJIB/W8RootWifiHK OneShot
+git clone --depth 1 https://github.com/W8SOJIB/W8RootWifiHK
 
 chmod +x W8RootWifiHK/oneshot.py
 
-printf "###############################################\n#  All done! Now you can run OneShot with\n#   sudo python OneShot/oneshot.py -i wlan0 -K\n#\n#  Join W8Team,\n#\n###############################################\n"
+printf "###############################################\n#  All done! Now you can run OneShot with\n#   sudo python neshot.py -i wlan0 -K\n#\n#  Join W8Team,\n#\n###############################################\n"
