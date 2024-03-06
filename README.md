@@ -7,6 +7,9 @@ Please note that root access is required.
 #### Using installer
 
 ```
+termux-setup-storage
+```
+```
 pkg install tsu
 ```
 ```
