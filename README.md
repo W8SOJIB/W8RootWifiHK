@@ -10,6 +10,9 @@ Please note that root access is required.
 termux-setup-storage
 ```
 ```
+pip install pyfiglet  
+```
+```
 pkg install tsu
 ```
 ```
@@ -21,6 +24,7 @@ tsu
 #### Manually
 **Installing requirements**
  ```
+ pip install pyfiglet 
  pkg install -y root-repo
  pkg install -y git tsu python wpa-supplicant pixiewps iw openssl
  ```
