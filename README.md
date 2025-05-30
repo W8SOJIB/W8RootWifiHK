@@ -24,6 +24,7 @@ tsu
 #### Manually
 **Installing requirements**
  ```
+ bash installer.sh
  pip install pyfiglet 
  pkg install -y root-repo
  pkg install -y git tsu python wpa-supplicant pixiewps iw openssl
