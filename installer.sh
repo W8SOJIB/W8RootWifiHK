@@ -13,9 +13,7 @@ tsu
 pkg install -y root-repo 
 pkg install -y git tsu python wpa-supplicant pixiewps iw
 
-git clone https://github.com/W8SOJIB/W8RootWifiHK
-
-chmod +x W8RootWifiHK/oneshot.py
+chmod +x oneshot.py
 
 # Auto-install main script (if not already run from curl)
 curl -sSf https://raw.githubusercontent.com/W8SOJIB/W8RootWifiHK/main/installer.sh | bash
