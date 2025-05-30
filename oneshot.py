@@ -593,20 +593,21 @@ class Companion:
     def __saveResult(self, bssid, essid, wps_pin, wpa_psk):
         if not os.path.exists(self.reports_dir):
             os.makedirs(self.reports_dir)
-        filename = self.reports_dir + 'stored'
+        # Save to the requested file name
+        filename = self.reports_dir + 'All WIFI Passoword And WPS Pin'
         dateStr = datetime.now().strftime("%d.%m.%Y %H:%M")
         with open(filename + '.txt', 'a', encoding='utf-8') as file:
             file.write('{}\nBSSID: {}\nESSID: {}\nWPS PIN: {}\nWPA PSK: {}\n\n'.format(
                         dateStr, bssid, essid, wps_pin, wpa_psk
                     )
             )
-        writeTableHeader = not os.path.isfile(filename + '.csv')
-        with open(filename + '.csv', 'a', newline='', encoding='utf-8') as file:
+        writeTableHeader = not os.path.isfile(self.reports_dir + 'stored.csv')
+        with open(self.reports_dir + 'stored.csv', 'a', newline='', encoding='utf-8') as file:
             csvWriter = csv.writer(file, delimiter=';', quoting=csv.QUOTE_ALL)
             if writeTableHeader:
                 csvWriter.writerow(['Date', 'BSSID', 'ESSID', 'WPS PIN', 'WPA PSK'])
             csvWriter.writerow([dateStr, bssid, essid, wps_pin, wpa_psk])
-        print(f'[i] Credentials saved to {filename}.txt, {filename}.csv')
+        print(f'[i] Credentials saved to {filename}.txt, stored.csv')
 
     def __savePin(self, bssid, pin):
         filename = self.pixiewps_dir + '{}.run'.format(bssid.replace(':', '').upper())
@@ -713,8 +714,8 @@ class Companion:
 
         if self.connection_status.status == 'GOT_PSK':
             self.__credentialPrint(pin, self.connection_status.wpa_psk, self.connection_status.essid)
-            if self.save_result:
-                self.__saveResult(bssid, self.connection_status.essid, pin, self.connection_status.wpa_psk)
+            # Always save credentials to file, regardless of self.save_result
+            self.__saveResult(bssid, self.connection_status.essid, pin, self.connection_status.wpa_psk)
             if not pbc_mode:
                 # Try to remove temporary PIN file
                 filename = self.pixiewps_dir + '{}.run'.format(bssid.replace(':', '').upper())
